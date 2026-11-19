@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>C++ &amp; Networking MCQ Exam</title>
+<style>
+:root{--bg:#0a1230;--c:#22d3ee;--p:#8b5cf6;--b:#3b82f6;--g:#16a34a;--r:#dc2626;--y:#ca8a04;--t:#e6ecff;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#2d1b78,var(--bg) 55%) fixed;color:var(--t);font:15px/1.5 system-ui,Segoe UI,sans-serif;min-height:100vh}
+.w{max-width:1000px;margin:auto;padding:14px}.card{background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;margin-bottom:14px;animation:f .4s}
+@keyframes f{from{opacity:0;transform:translateY(8px)}}
+h1,h2{margin:.2em 0;background:linear-gradient(90deg,var(--c),var(--p));-webkit-background-clip:text;background-clip:text;color:transparent}
+input{width:100%;padding:10px;margin:5px 0 10px;border-radius:10px;border:1px solid #3b4a8a;background:#0d1a45;color:var(--t)}
+button{cursor:pointer;border:0;border-radius:10px;padding:10px 16px;color:#fff;background:linear-gradient(90deg,var(--p),var(--b));font-weight:600;margin:3px}
+button.s{background:#27336b}button.d{background:var(--r)}
+pre{background:#050a22;border:1px solid #2b3a7a;border-radius:10px;padding:12px;overflow-x:auto;color:var(--c)}
+.o{display:block;padding:10px 12px;margin:7px 0;border:1px solid #3b4a8a;border-radius:10px;cursor:pointer}.o.sel{border-color:var(--c);background:rgba(34,211,238,.18)}
+.top{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center}
+#tm{font-size:26px;font-weight:700;color:var(--c)}#tm.low{color:#f87171}
+.bar{height:8px;background:#1b2760;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--c),var(--p))}
+.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}.pal button{margin:0;padding:8px 0;background:var(--r)}.pal .a{background:var(--g)}.pal .m{background:var(--p)}.pal .cur{background:var(--b);outline:2px solid var(--c)}
+.g{display:grid;grid-template-columns:1fr 250px;gap:14px}@media(max-width:760px){.g{grid-template-columns:1fr}}
+.rv{border-left:5px solid var(--y)}.rv.ok{border-color:var(--g)}.rv.bad{border-color:var(--r)}
+.cg{background:rgba(22,163,74,.3)}.cr{background:rgba(220,38,38,.3)}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid #2b3a7a;text-align:left}
+#toast{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:var(--y);color:#000;padding:10px 18px;border-radius:10px;display:none;z-index:9;font-weight:700}
+@media print{body{background:#fff;color:#000}.np{display:none!important}.card{background:#fff;border:1px solid #999;color:#000}h1,h2{color:#000;background:none}}
+</style></head><body><div id="toast"></div><div class="w" id="app"></div>
+<script>
+/* ===== QUESTION BANK: [question, code, options, correctIndex] ===== */
+const Q=[
+["Predict the output.","int a=10,b=3;\ncout<<a/b<<\" \"<<a%b<<\" \"<<(float)a/b;",["3 1 3.33333","3.33 1 3","3 1 3","3 0 3.33333"],0],
+["What is printed?","int a=5;\nint b=a++ * 2;\ncout<<a<<b;",["610","510","611","1010"],0],
+["Value printed?","cout<<2+3*4%5;",["4","14","9","3"],0],
+["Predict the output.","for(int i=0;i<5;i++){\n  if(i==2) continue;\n  if(i==4) break;\n  cout<<i;\n}",["013","0134","01","0123"],0],
+["Predict the output.","int a[5]={1,2,3};\ncout<<a[1]+a[4];",["2","5","Garbage value","Compile error"],0],
+["What is printed?","void f(int a,int &b){a++;b++;}\nint main(){int x=1,y=1;f(x,y);cout<<x<<y;}",["11","12","21","22"],1],
+["What is printed?","int x=3;\nif(x=5) cout<<\"A\"; else cout<<\"B\";\ncout<<x;",["A3","B3","A5","B5"],2],
+["Predict the output.","int f(int n){return n<=1?1:n*f(n-1);}\nint main(){cout<<f(4);}",["10","12","24","16"],2],
+["Predict the output.","int x=7;\ncout<<(x>5 && x<10)<<(x<5||x>10);",["10","11","01","00"],0],
+["Predict the output.","int a=6,b=4;\na^=b;\ncout<<a;",["2","10","4","6"],0],
+["Predict the output.","cout<<(5>3?\"Yes\":\"No\")<<sizeof(char);",["No1","Yes1","Yes4","No4"],1],
+["Predict the output.","int i=0;\nwhile(i<3){cout<<i; i+=2;}",["012","024","02","0"],2],
+["Predict the output.","int i=5;\ndo{cout<<i;}while(i<5);",["Nothing","55","Infinite loop","5"],3],
+["What happens?","const int n=5;\nn=10;\ncout<<n;",["10","5","Compile error: assignment to const","Runtime error"],2],
+["Predict the output.","int a[]={2,4,6,8};\nint s=0;\nfor(int i=1;i<4;i++) s+=a[i]-a[i-1];\ncout<<s;",["6","8","20","2"],0],
+["Predict the output.","int a[3]={5,6,7};\nint *p=a;\ncout<<*(p+2)<<*p;",["57","75","76","65"],1],
+["How many times does cnt++ execute?","int cnt=0;\nfor(int i=1;i<=3;i++)\n  for(int j=1;j<=i;j++) cnt++;\ncout<<cnt;",["3","9","6","5"],2],
+["Predict the output.","int f(int &x){x*=2; return x;}\nint main(){int a=3; int r=f(a); cout<<a<<r;}",["36","63","33","66"],3],
+["Predict the output.","int add(int a,int b=5){return a+b;}\nint main(){cout<<add(2)<<add(2,3);}",["57","75","77","55"],1],
+["Predict the output.","int x=2;\nswitch(x){\n case 1: cout<<\"A\";\n case 2: cout<<\"B\";\n case 3: cout<<\"C\"; break;\n default: cout<<\"D\";\n}",["B","BC","BCD","C"],1],
+["Predict the output.","char c='A';\nc+=2;\ncout<<c<<(int)c;",["C67","A65","C66","67C"],0],
+["Value printed? (precedence/associativity)","int r=10-2-3*2;\ncout<<r;",["-1","2","6","5"],1],
+["Predict the output (C++11 and later).","cout<<(-7/2)<<\" \"<<(-7%2);",["-4 1","-3 1","-4 -1","-3 -1"],3],
+["Which feature distinguishes OOP from Procedure-Oriented Programming?",null,["Top-down design","Use of functions","Global data shared by all functions","Data hiding through encapsulation"],3],
+["Predict the output.","bool b=5;\ncout<<b<<!b;",["50","11","10","01"],2],
+["Predict the output.","class A{public:A(){cout<<\"A\";}~A(){cout<<\"a\";}};\nclass B:public A{public:B(){cout<<\"B\";}~B(){cout<<\"b\";}};\nint main(){B obj;}",["ABab","ABba","BAab","BAba"],1],
+["What happens?","class S{int roll;public:S(){roll=1;}};\nint main(){S s; cout<<s.roll;}",["Prints 1","Prints 0","Compile error (private member)","Garbage value"],2],
+["Predict the output.","void f(int x){cout<<\"I\";}\nvoid f(double x){cout<<\"D\";}\nint main(){f(5);f(5.0);f('a');}",["IDD","IID","DDI","IDI"],3],
+["Predict the output.","int x=10;\nint main(){int x=20; cout<<x<<::x;}",["2020","1010","2010","1020"],2],
+["What happens?","class P{public:int v;P(int a){v=a;}};\nint main(){P p;}",["v becomes 0","Compile error: no default constructor","v is garbage","Runtime error"],1],
+["Predict the output.","class A{public:A(){cout<<\"A\";}};\nclass B{public:B(){cout<<\"B\";}};\nclass C:public B,public A{public:C(){cout<<\"C\";}};\nint main(){C c;}",["ABC","CBA","BAC","CAB"],2],
+["In class D:public B, where B has a protected member x, which is true?",null,["main() can access d.x","D's member functions can access x","x becomes private in main only","x is inaccessible in D"],1],
+["Predict the output.","class A{public:void show(){cout<<\"A\";}};\nclass B:public A{public:void show(){cout<<\"B\";}};\nint main(){A* p=new B; p->show();}",["B","AB","A","Compile error"],2],
+["Predict the output.","class C{public:static int n;C(){n++;}};\nint C::n=0;\nint main(){C a,b,c; cout<<C::n;}",["0","1","3","Compile error"],2],
+["Predict the output.","class P{public:int v;};\nint main(){P a; a.v=4; P b=a; b.v=9; cout<<a.v<<b.v;}",["99","49","44","94"],1],
+["Predict the output.","class T{int id;public:\n T(int i){id=i;cout<<id;}\n ~T(){cout<<id;}};\nint main(){T a(1),b(2);}",["1212","2112","1221","1122"],2],
+["Predict the output.","class R{int w,h;public:\n R(int a,int b):w(a),h(b){}\n int area(){return w*h;}};\nint main(){R r(3,4); cout<<r.area();}",["7","12","34","Compile error"],1],
+["In 'void Student::show(){...}', the :: operator:",null,["Creates a Student object","Calls show()","Declares a namespace","Defines show() as a member of class Student"],3],
+["Predict the output.","class V{public:void run(){cout<<\"V\";}};\nclass Car:public V{};\nclass Bike:public V{};\nint main(){Car c; Bike b; c.run(); b.run();}",["VV","V","CarBike","Compile error"],0],
+["What happens?","class A{public:int x=1;};\nclass B:private A{};\nint main(){B b; cout<<b.x;}",["Prints 1","Prints 0","Compile error: x is inaccessible","Garbage value"],2],
+["What happens with the call f(3,4)?","void f(int a,double b){cout<<1;}\nvoid f(double a,int b){cout<<2;}\nint main(){f(3,4);}",["1","2","12","Compile error: ambiguous call"],3],
+["Why are these two functions invalid together?","int f(){return 1;}\ndouble f(){return 2.0;}",["Names must differ","Return type alone cannot distinguish overloads","double is not allowed","Parameters are missing"],1],
+["Predict the destructor output.","class A{public:~A(){cout<<\"A\";}};\nclass B:public A{public:~B(){cout<<\"B\";}};\nclass C:public B{public:~C(){cout<<\"C\";}};\nint main(){C c;}",["ABC","CBA","BCA","CAB"],1],
+["What happens? (hybrid inheritance)","class A{public:int v=1;};\nclass B:public A{};\nclass C:public A{};\nclass D:public B,public C{};\nint main(){D d; cout<<d.v;}",["Prints 1","Prints 2","Compile error: ambiguous v","Prints 0"],2],
+["Predict the output.","class A{public:A(int x){cout<<x;}};\nclass B:public A{public:B():A(7){cout<<\"B\";}};\nint main(){B b;}",["B7","7","B","7B"],3],
+["Predict the output.","class N{int v;public:\n N(int v){this->v=v;}\n int get(){return v;}};\nint main(){N n(5); cout<<n.get();}",["5","0","Garbage","Compile error"],0],
+["What happens?","class K{public:int v=3; void set(){v=4;}};\nint main(){const K k=K(); k.set();}",["Compiles; v becomes 4","Compiles; v stays 3","Runtime error","Compile error: non-const member on const object"],3],
+["Predict the output.","class X{public:X(){cout<<\"*\";}};\nint main(){X arr[3];}",["*","**","***","Nothing"],2],
+["Predict the output.","class D{public:~D(){cout<<\"d\";}};\nvoid f(){D x; cout<<\"f\";}\nint main(){f(); cout<<\"m\";}",["dfm","fdm","fmd","mfd"],1],
+["Which statement fails to compile?","struct S{int a;};\nclass C{int a;};\nint main(){\n S s; C c;\n s.a=1;   // line 1\n c.a=1;   // line 2\n}",["Line 1","Line 2","Both","Neither"],1],
+["A company wants to join its LAN to the internet and forward packets based on IP addresses. Best device?",null,["Hub","Switch","Repeater","Router"],3],
+["In an office every PC receives every frame regardless of destination. Which device is likely used?",null,["Switch","Hub","Router","Gateway"],1],
+["Which device modulates and demodulates signals so a computer can use a telephone line to reach an ISP?",null,["Modem","Switch","Repeater","Hub"],0],
+["An Ethernet cable run of 150 m has weak signal at the far end. Cheapest fix?",null,["Router","Modem","Repeater","Gateway"],2],
+["Connecting a network using TCP/IP to one using a completely different protocol suite requires a:",null,["Hub","Gateway","Repeater","Switch"],1],
+["OSI layer responsible for logical addressing and routing:",null,["Data Link","Transport","Session","Network"],3],
+["In the OSI model, the layer directly above the Transport layer is:",null,["Network","Presentation","Session","Application"],2],
+["Which OSI layer handles encryption, compression and data translation?",null,["Presentation","Application","Session","Data Link"],0],
+["Which OSI layer provides reliable end-to-end delivery with error recovery and flow control?",null,["Network","Transport","Data Link","Session"],1],
+["Correct order of OSI layers from bottom to top:",null,["Physical, Network, Data Link, Transport, Session, Presentation, Application","Data Link, Physical, Network, Transport, Application, Session, Presentation","Physical, Data Link, Network, Transport, Session, Presentation, Application","Physical, Data Link, Transport, Network, Session, Presentation, Application"],2],
+["Frames and MAC addressing belong to which OSI layer?",null,["Physical","Data Link","Network","Transport"],1],
+["Which OSI layer establishes, manages and terminates dialogs between applications?",null,["Session","Transport","Presentation","Application"],0],
+["A cable-TV company connects its offices across one city. This network is a:",null,["LAN","MAN","WAN","PAN"],1],
+["A bank connecting branches across several countries uses a:",null,["LAN","MAN","HAN","WAN"],3],
+["A lab of 30 PCs needs frames delivered only to the intended PC. Best device?",null,["Hub","Repeater","Switch","Modem"],2],
+["Which is a primary goal of computer networking?",null,["Increasing CPU clock speed","Resource sharing","Reducing RAM usage","Removing the need for software"],1],
+["Internetworking means:",null,["Connecting two PCs with one cable","Installing an operating system","Increasing bandwidth of one link","Connecting multiple networks into a larger network"],3],
+["For home broadband with Wi-Fi to phones and laptops, which pair is typically used?",null,["Modem + Router","Hub + Repeater","Gateway + Hub","Repeater + Modem"],0],
+["Which statement about switch vs hub is correct?",null,["A hub learns MAC addresses","A switch broadcasts every frame to all ports","A switch learns MAC addresses and forwards selectively","A hub isolates collision domains"],2]
+].map((x,i)=>({id:"Q"+(i+1),q:x[0],code:x[1],o:x[2],a:x[3]}));
+const T=Q.length,DUR=3600,$=id=>document.getElementById(id);
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let S=ld("exam_state",null),tick=null;
+const save=()=>sv("exam_state",S);
+function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",4000)}
+
+/* ===== Registration ===== */
+function reg(){S=null;$("app").innerHTML=`<div class="card"><h1>C++ Programming &amp; Computer Networking</h1><p>${T} MCQs • ${T} Marks • 60 Minutes • No negative marking</p>
+<label>Full Name<input id="n"></label><label>Enrollment Number<input id="e"></label><label>Branch<input id="b"></label><label>Semester<input id="s"></label><label>College Name<input id="c"></label>
+<button onclick="start()">START EXAM</button><button class="s" onclick="adminLogin()">Admin Login</button></div>`}
+function start(){const v=k=>$(k).value.trim();if(!["n","e","b","s","c"].every(k=>v(k)))return alert("Please fill all fields.");
+S={name:v("n"),enr:v("e"),br:v("b"),sem:v("s"),col:v("c"),id:Date.now(),endAt:Date.now()+DUR*1000,ans:{},mk:{},cur:0,done:false};save();run()}
+
+/* ===== Exam ===== */
+function run(){if(S.done)return showResult();if(Date.now()>=S.endAt)return submit(true);
+$("app").innerHTML=`<div class="card top"><div><h2>C++ &amp; Networking</h2><small>${esc(S.name)} • ${esc(S.enr)} • ${T} Qs • ${T} Marks</small></div><div id="tm">60:00</div></div>
+<div class="g"><div><div class="card" id="qa"></div></div><div class="card"><b>Question Palette</b><div class="pal" id="pal"></div><p><small>🟩 Answered 🟥 Not answered 🟪 Review 🟦 Current</small></p><button class="d" onclick="confirmSubmit()">Submit Exam</button></div></div>`;
+clearInterval(tick);tick=setInterval(timer,1000);timer();draw()}
+let warned={};
+function timer(){const left=Math.max(0,Math.round((S.endAt-Date.now())/1000));const m=String(Math.floor(left/60)).padStart(2,"0"),s=String(left%60).padStart(2,"0");
+const el=$("tm");if(el){el.textContent=m+":"+s;el.className=left<=300?"low":""}
+[[600,"⚠ 10 minutes remaining"],[300,"⚠⚠ Only 5 minutes left! Review your answers."],[60,"🚨 FINAL WARNING: 1 minute left!"]].forEach(([t,msg])=>{if(left<=t&&left>t-3&&!warned[t]){warned[t]=1;toast(msg)}});
+if(left<=0)submit(true)}
+function draw(){const q=Q[S.cur],i=S.cur;
+$("qa").innerHTML=`<div class="bar"><i style="width:${(i+1)/T*100}%"></i></div><p>Question ${i+1} of ${T} • Answered: ${Object.keys(S.ans).length}</p><h3>${esc(q.q)}</h3>${q.code?`<pre>${esc(q.code)}</pre>`:""}
+${q.o.map((o,k)=>`<label class="o ${S.ans[i]===k?"sel":""}" onclick="pick(${k})">${"ABCD"[k]}. ${esc(o)}</label>`).join("")}
+<button class="s" onclick="go(${i-1})">◀ Previous</button><button onclick="go(${i+1})">Next ▶</button><button class="s" onclick="mark()">${S.mk[i]?"Unmark":"Mark for Review"}</button><button class="s" onclick="clr()">Clear Response</button>`;
+$("pal").innerHTML=Q.map((_,k)=>`<button class="${k===i?"cur":S.mk[k]?"m":S.ans[k]!==undefined?"a":""}" onclick="go(${k})">${k+1}</button>`).join("")}
+const pick=k=>{S.ans[S.cur]=k;save();draw()},clr=()=>{delete S.ans[S.cur];save();draw()},mark=()=>{S.mk[S.cur]=!S.mk[S.cur];save();draw()},go=k=>{if(k<0||k>=T)return;S.cur=k;save();draw()};
+function confirmSubmit(){const u=T-Object.keys(S.ans).length;if(confirm(`Submit now? ${u} question(s) unanswered. This cannot be undone.`))submit(false)}
+
+/* ===== Evaluation ===== */
+function msg(s){const p=s/T*100,x=`You scored ${s} out of ${T}.`;
+if(p>=85.7)return["Excellent Performance!",`Excellent Performance! ${x} Outstanding work! Keep it up. Your programming concepts and problem-solving skills are improving. Keep learning and keep growing!`];
+if(p>=71.4)return["Very Good",`Very Good! ${x} You have a strong grasp of most topics. Revise the questions you missed to reach the top band.`];
+if(p>=57.1)return["Needs Improvement",`Good effort! ${x} You have a basic understanding, but there is still room for improvement. Revise your concepts, practice more coding questions and aim higher in the next test.`];
+if(p>=44.3)return["More Practice Required",`${x} More practice is required. Work through C++ output-prediction and OOP programs daily and revise networking devices.`];
+return["Please Study Hard",`Your score is ${s} out of ${T}. Please study hard! Focus on understanding C++ fundamentals, OOP concepts and Computer Networking. Practice coding snippets daily. You can improve with consistent effort.`]}
+function submit(auto){if(S.done)return;clearInterval(tick);
+let c=0,w=0;Q.forEach((q,i)=>{if(S.ans[i]!==undefined){S.ans[i]===q.a?c++:w++}});
+const used=Math.min(DUR,Math.round((Date.now()-S.id)/1000));
+S.done=true;S.res={c,w,u:T-c-w,score:c,pct:+(c/T*100).toFixed(2),acc:c+w?+(c/(c+w)*100).toFixed(1):0,time:used,date:new Date().toLocaleString()};save();
+const all=ld("exam_results",[]).filter(r=>r.id!==S.id);all.push({id:S.id,name:S.name,enr:S.enr,br:S.br,sem:S.sem,col:S.col,...S.res});sv("exam_results",all);
+if(auto)alert("Time is up! Your exam was submitted automatically.");showResult()}
+
+/* ===== Result + review + print ===== */
+const fmt=s=>Math.floor(s/60)+"m "+s%60+"s";
+function showResult(){const r=S.res,[t,m]=msg(r.score);
+$("app").innerHTML=`<div class="card"><h1>Result — ${t}</h1><p><b>${esc(S.col)}</b> • Department Exam Portal</p>
+<table><tr><td>Student</td><td>${esc(S.name)}</td><td>Enrollment</td><td>${esc(S.enr)}</td></tr><tr><td>Branch / Sem</td><td>${esc(S.br)} / ${esc(S.sem)}</td><td>Date</td><td>${r.date}</td></tr>
+<tr><td>Marks</td><td>${r.score} / ${T}</td><td>Percentage</td><td>${r.pct}%</td></tr><tr><td>Correct</td><td>${r.c}</td><td>Incorrect</td><td>${r.w}</td></tr><tr><td>Unattempted</td><td>${r.u}</td><td>Time / Accuracy</td><td>${fmt(r.time)} / ${r.acc}%</td></tr></table>
+<p><b>${m}</b></p>
+<div class="bar" style="height:22px;display:flex"><i style="width:${r.c/T*100}%;background:var(--g)"></i><i style="width:${r.w/T*100}%;background:var(--r)"></i><i style="width:${r.u/T*100}%;background:var(--y)"></i></div><small>Green correct • Red incorrect • Yellow unattempted</small>
+<div class="np"><br><button onclick="print()">Download Result (Print/PDF)</button><button class="s" onclick="if(confirm('Start a new attempt?'))reg()">New Attempt</button></div></div>
+<h2 class="np">Question-wise Review</h2><div class="np">${Q.map((q,i)=>{const a=S.ans[i],st=a===undefined?"":a===q.a?"ok":"bad";return`<div class="card rv ${st}"><b>${i+1}. ${esc(q.q)}</b>${q.code?`<pre>${esc(q.code)}</pre>`:""}${q.o.map((o,k)=>`<div class="o ${k===q.a?"cg":k===a?"cr":""}">${"ABCD"[k]}. ${esc(o)}${k===q.a?" ✔ Correct":""}${k===a&&k!==q.a?" ✘ Your answer":""}</div>`).join("")}<small>${a===undefined?"Unanswered":a===q.a?"Correct":"Incorrect"}</small></div>`}).join("")}</div>`}
+
+/* ===== Admin ===== */
+function adminLogin(){$("app").innerHTML=`<div class="card"><h2>Admin Login</h2><input id="u" placeholder="Username"><input id="p" type="password" placeholder="Password"><button onclick="if($('u').value=='admin'&&$('p').value=='admin123')admin();else alert('Wrong credentials')">Login</button><button class="s" onclick="S?run():reg()">Back</button></div>`}
+function admin(sort,q=""){let r=ld("exam_results",[]);if(q)r=r.filter(x=>x.enr.toLowerCase().includes(q.toLowerCase()));if(sort)r.sort((a,b)=>b.score-a.score);
+const all=ld("exam_results",[]),sc=all.map(x=>x.score);
+$("app").innerHTML=`<div class="card"><h2>Teacher Dashboard</h2><p>Students/completed exams: <b>${all.length}</b> • Average: <b>${sc.length?(sc.reduce((a,b)=>a+b,0)/sc.length).toFixed(1):0}</b> • Highest: <b>${sc.length?Math.max(...sc):0}</b></p>
+<p><small>Note: data is stored in this browser's LocalStorage only and is not shared across students' devices. Collect results via CSV/print.</small></p>
+<input id="sq" placeholder="Search enrollment" value="${esc(q)}" oninput="admin(${!!sort},this.value)"><button class="s" onclick="admin(true,$('sq').value)">Sort by marks</button><button onclick="csv()">Download CSV</button><button class="d" onclick="if(confirm('Delete ALL local exam data?')){localStorage.clear();S=null;admin()}">Reset data</button><button class="s" onclick="S?run():reg()">Exit</button>
+<table><tr><th>Name</th><th>Enrollment</th><th>Marks</th><th>%</th><th>Date</th></tr>${r.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.enr)}</td><td>${x.score}/${T}</td><td>${x.pct}</td><td>${x.date}</td></tr>`).join("")}</table></div>`;const s=$("sq");s.focus();s.setSelectionRange(99,99)}
+function csv(){const r=ld("exam_results",[]);const l=["Name,Enrollment,Branch,Semester,College,Marks,Percentage,Correct,Incorrect,Unattempted,Time(s),Date"].concat(r.map(x=>[x.name,x.enr,x.br,x.sem,x.col,x.score,x.pct,x.c,x.w,x.u,x.time,x.date].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")));
+const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([l.join("\n")],{type:"text/csv"}));a.download="results.csv";a.click()}
+
+/* ===== Boot: resume saved attempt after refresh ===== */
+S&&!S.done&&Date.now()<S.endAt?run():S&&S.done?showResult():S&&!S.done?submit(true):reg();
+</script></body></html>
